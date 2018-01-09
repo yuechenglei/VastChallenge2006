@@ -7,7 +7,7 @@
     </i-menu>
     <div id="content">
       <myHeader id="zone1"></myHeader>
-      <!-- <myIndex id="zone2"></myIndex> -->
+      <myIndex id="zone2"></myIndex>
       <!-- <myContent></myContent> -->
       <myFooter id="zone3"></myFooter>
       <!-- <router-view/> -->
@@ -18,7 +18,7 @@
 import myHeader from './components/header.vue'
 import myFooter from './components/map.vue'
 import myIndex from './components/index.vue'
-import * as d3 from 'd3'
+import * as d3 from 'd3-3'
 
 export default {
   name: 'app',
@@ -35,7 +35,7 @@ export default {
   async created() {
     var self = this;
     this.$Loading.start();
-    
+
     await d3.json("../static/data.json", function(error, data) {
       if (error) {
         self.$Loading.error()
@@ -43,17 +43,22 @@ export default {
       }
       // Load the json data
       self.sleep(1000)
-      console.log(data)
+      // console.log(data)
     })
-
-    await d3.csv("../static/d.csv", function(error, data) {
+    var csv = d3.dsv(",", "text/csv;charset=gb2312");
+    await csv("../static/news-original-and-extra-raw-tables/Voter Registry/Voter Registry.csv", function(error, data) {
       if (error) {
         self.$Loading.error()
         throw error;
       }
       // Load the CSV data
-      self.sleep(1000)
-      console.log(data)
+      // self.sleep(1000)
+
+      var groupData = d3.nest()
+        .key(function(d) { return d.SEX; })
+        .entries(data);
+
+      console.log(groupData)
     })
 
     this.$Loading.finish();

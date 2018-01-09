@@ -16,6 +16,9 @@ UI iconfont, iView, fontAwesome
 # install dependencies
 npm install
 
+#if chromedriver error may try:
+#npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+
 # serve with hot reload at localhost:8080
 npm run dev
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <myHeader></myHeader>
-    <myContent></myContent>
+    <!-- <myContent></myContent> -->
     <!-- <myFooter></myFooter> -->
   </div>
 </template>

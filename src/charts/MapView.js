@@ -17,10 +17,9 @@ export default class {
     // console.log(el)
     this.init()
 
-    console.log(jsond)
+    // console.log(jsond)
     d3.csv("../static/d.csv", function(error, data) {
       if (error) throw error;
-
       // Load the CSV data
       // console.log(data)
     })
