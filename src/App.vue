@@ -6,10 +6,16 @@
       </menu-item>
     </i-menu>
     <div id="content">
-      <myHeader id="zone1"></myHeader>
-      <myIndex id="zone2"></myIndex>
+      <myHeader id="zoneL"></myHeader>
+      <div id="zoneM">
+        <netWork id="network"></netWork>
+        <timeLine id="timeline"></timeLine>
+      </div>
+      <div id="zoneR">
+        <myIndex id="text"></myIndex>
+        <geoTime id="geotime"></geoTime>
+      </div>
       <!-- <myContent></myContent> -->
-      <myFooter id="zone3"></myFooter>
       <!-- <router-view/> -->
     </div>
   </div>
@@ -18,11 +24,14 @@
 import myHeader from './components/header.vue'
 import myFooter from './components/map.vue'
 import myIndex from './components/index.vue'
+import timeLine from './components/timeline.vue'
+import geoTime from './components/geotime.vue'
+import netWork from './components/network.vue'
 import * as d3 from 'd3-3'
 
 export default {
   name: 'app',
-  components: { myHeader, myFooter, myIndex },
+  components: { myHeader, myFooter, myIndex, timeLine, geoTime, netWork },
   mounted() {
     ///////////////load data before render
     // d3.json("../static/data.json", function(error, data) {
@@ -36,16 +45,18 @@ export default {
     var self = this;
     this.$Loading.start();
 
-    await d3.json("../static/data.json", function(error, data) {
+    var csv = d3.dsv(",", "text/csv;charset=gb2312");
+
+    await csv("../static/news-original-and-extra-raw-tables/City Hall Phone Log/Conference Room Phone Log.CSV", function(error, data) {
       if (error) {
         self.$Loading.error()
         throw error;
       }
       // Load the json data
-      self.sleep(1000)
-      // console.log(data)
+      // self.sleep(1000)
+      console.log(data[0])
     })
-    var csv = d3.dsv(",", "text/csv;charset=gb2312");
+
     await csv("../static/news-original-and-extra-raw-tables/Voter Registry/Voter Registry.csv", function(error, data) {
       if (error) {
         self.$Loading.error()
@@ -92,28 +103,62 @@ export default {
     width: 100%;
     height: calc(~"100% - 50px");
 
-
-    #zone1 {
+    #zoneL {
       position: absolute;
       left: 0;
       top: 0;
-      width: 50%;
-      height: 50%;
+      width: 15%;
+      height: 100%;
       background: @color-bd;
     }
-    #zone2 {
+    #zoneM {
       position: absolute;
-      left: 50%;
+      left: 15%;
       top: 0;
-      width: 50%;
+      width: 55%;
       height: 100%; //background: @color-main;
+      #network {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 75%;
+      }
+
+      #timeline {
+        position: absolute;
+        left: 0;
+        top: 75%;
+        width: 100%;
+        height: 25%;
+        background: @color-bd;
+      }
     }
-    #zone3 {
+    #zoneR {
       position: absolute;
-      top: 50%;
-      left: 0;
-      width: 50%;
-      height: 50%;
+      top: 0;
+      left: 70%;
+      width: 30%;
+      height: 100%;
+
+
+      #text {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 55%;
+         background: @color-bd;
+      }
+
+      #geotime {
+        position: absolute;
+        left: 0;
+        top: 55%;
+        width: 100%;
+        height: 45%;
+       
+      }
     }
   }
 }
